@@ -11,7 +11,7 @@ export const DashboardRoutes: FC = () => {
         <Fragment>
             <Navbar />
 
-            <div>
+            <div className="container mt-2">
                 <Switch>
                     <Route exact path="/marvel" component={MarvelScreen}></Route>
                     <Route exact path="/heroe/:heroeId" component={HeroScreen}></Route>
