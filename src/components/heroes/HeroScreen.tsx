@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { History, LocationState } from 'history';
 
@@ -15,7 +15,7 @@ interface HeroScreenProps {
 export const HeroScreen: FC<HeroScreenProps> = ({ history }: HeroScreenProps) => {
     const { heroId } = useParams<HeroParams>();
 
-    const hero = getHeroeById(heroId);
+    const hero = useMemo(() => getHeroeById(heroId), [heroId]);
 
     console.log(hero, heroId);
 

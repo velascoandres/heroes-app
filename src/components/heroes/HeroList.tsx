@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { getHeroesByPublisher } from '../../selectors/getHeroesByPublisher';
 import { HeroCard } from './HeroCard';
 import { Publisher } from './interfaces';
@@ -8,13 +8,15 @@ export interface HeroListProps {
 }
 
 export const HeroList: FC<HeroListProps> = ({ publisher }: HeroListProps) => {
-    const heroes = getHeroesByPublisher(publisher);
+
+    // if publisher changes
+    const heroes = useMemo(() => getHeroesByPublisher(publisher), [publisher]);
 
     return (
         <div className="row">
             {heroes.map((hero) => (
                 <div key={hero.id} className="col-lg-4 col-md-6 col-sm-12">
-                    <HeroCard  hero={hero} />
+                    <HeroCard hero={hero} />
                 </div>
             ))}
         </div>
