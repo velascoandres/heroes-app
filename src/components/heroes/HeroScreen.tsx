@@ -37,15 +37,20 @@ export const HeroScreen: FC<HeroScreenProps> = ({ history }: HeroScreenProps) =>
     return (
         <div className="row mt-5">
             <div className="col-md-4 col-sm-12">
-                <img src={`/assets/heroes/${id}.jpg`} className="card-img-top" alt={superhero} />{' '}
+                <img
+                    src={`/assets/heroes/${id}.jpg`} 
+                    className="card-img-top animate__animated animate__bounceIn" 
+                    alt={superhero} 
+                />
+               
             </div>
 
             <div className="col-md-8 col-sm-12">
-                <h2>Hero: {superhero} </h2>
-                <span className="badge bg-secondary ms-1">{publisher}</span>
+                <h2 className="animate__animated animate__rotateInDownLeft">Hero: {superhero} </h2>
+                <span className="badge bg-secondary ms-1 animate__animated animate__bounceIn">{publisher}</span>
                 <hr />
 
-                <p className="text">
+                <p className="text animate__animated animate__bounceIn">
                     <strong>Alter Ego: </strong>
                     {alter_ego}
                 </p>
@@ -55,10 +60,13 @@ export const HeroScreen: FC<HeroScreenProps> = ({ history }: HeroScreenProps) =>
                         <hr />
                         <div className="card-text">
                             {characters.split(',').map((character: string, index: number) => {
-                                const style = index % 2 === 0 ? 'bg-primary' : 'bg-success';
+                                const style = index % 2 === 0 ? 'bg-primary animate__zoomInLeft' : 'bg-success animate__zoomInRight';
 
                                 return (
-                                    <span key={character} className={`badge ${style} ms-1`}>
+                                    <span 
+                                        key={character} 
+                                        className={`badge animate__animated ${style} ms-1`}
+                                    >
                                         {character}
                                     </span>
                                 );
@@ -69,11 +77,11 @@ export const HeroScreen: FC<HeroScreenProps> = ({ history }: HeroScreenProps) =>
 
                 <hr />
 
-                <p>
+                <p className="animate__animated animate__bounceIn" >
                     <strong>First Appereace: </strong> <small className="text-muted">{first_appearance}</small>
                 </p>
 
-                <button className="btn btn-success" onClick={handleReturn}>
+                <button className="btn btn-success animate__animated animate__bounceIn" onClick={handleReturn}>
                     Return
                 </button>
             </div>
