@@ -5,6 +5,7 @@ interface LoginScreenProps {
     history: History<LocationState>;
 }
 
+
 export const LoginScreen: FC<LoginScreenProps> = ({ history }: LoginScreenProps) => {
     const handleClick = () => {
         // Navigate to dashboard

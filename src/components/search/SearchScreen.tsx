@@ -1,28 +1,51 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+
+import { History, LocationState } from 'history';
+
+import {parse} from 'querystring';
+
 import { heroes } from '../../data/heroes.mock';
 import { useForm } from '../../hooks/useForm';
 import { HeroCard } from '../heroes/HeroCard';
 import { IHero } from '../heroes/interfaces';
+import { useLocation } from 'react-router-dom';
+
 
 export interface SearchFormState {
-    hero: string;
+    searchText: string;
 }
 
 export interface SearchState {
     filteredHeroes: IHero[];
 }
 
-export const SearchScreen: FC = () => {
 
-    const [formState, onChange, handleSubmit] = useForm<SearchFormState>({hero: ''});
+
+interface SearchScreenProps {
+    history: History<LocationState>;
+}
+
+export const SearchScreen: FC<SearchScreenProps> = ({history}: SearchScreenProps) => {
+
+    const location = useLocation();
+
+
+    const search = parse(location.search);
+
+    const [formState, onChange] = useForm<SearchFormState>({searchText: search?.q as string});
 
     const [searchState, setSearchState] = useState<SearchState>({filteredHeroes: []});
 
+    useEffect(() => {
+        console.log(search);
+    }, []);
+
     const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
-            handleSubmit(e);
-            const {hero} = formState;
-            const filteredHeroes = heroes.filter( chero => chero.superhero.toUpperCase().startsWith(hero.toUpperCase()) );
-            setSearchState({filteredHeroes});
+            e.preventDefault();
+            history.push(`?q=${formState.searchText}`)
+            const {searchText} = formState;
+            // const filteredHeroes = heroes.filter( chero => chero.superhero.toUpperCase().startsWith(searchText.toUpperCase()) );
+            // setSearchState({filteredHeroes});
     };
 
     return (
@@ -39,8 +62,8 @@ export const SearchScreen: FC = () => {
                     <form onSubmit={(e) => handleFilter(e)}>
                         <input
                             type="text"
-                            id="heroe"
-                            name="heroe"
+                            id="searchText"
+                            name="searchText"
                             onChange={onChange}
                             placeholder="Find your hero"
                             className="form-control"
