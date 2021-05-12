@@ -1,15 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { History, LocationState } from 'history';
 
-import {parse} from 'querystring';
+import { parse } from 'querystring';
 
-import { heroes } from '../../data/heroes.mock';
 import { useForm } from '../../hooks/useForm';
 import { HeroCard } from '../heroes/HeroCard';
 import { IHero } from '../heroes/interfaces';
 import { useLocation } from 'react-router-dom';
-
+import { getHeroeByName } from '../../selectors/getHeresByName';
 
 export interface SearchFormState {
     searchText: string;
@@ -19,33 +18,23 @@ export interface SearchState {
     filteredHeroes: IHero[];
 }
 
-
-
 interface SearchScreenProps {
     history: History<LocationState>;
 }
 
-export const SearchScreen: FC<SearchScreenProps> = ({history}: SearchScreenProps) => {
-
+export const SearchScreen: FC<SearchScreenProps> = ({ history }: SearchScreenProps) => {
     const location = useLocation();
+    const { q } = parse(location.search, '?'); // I put this because parse() returns => '{?q='batman'}'
 
+    const [formState, onChange] = useForm<SearchFormState>({ searchText: q as string });
 
-    const search = parse(location.search);
+    const { searchText } = formState;
 
-    const [formState, onChange] = useForm<SearchFormState>({searchText: search?.q as string});
-
-    const [searchState, setSearchState] = useState<SearchState>({filteredHeroes: []});
-
-    useEffect(() => {
-        console.log(search);
-    }, []);
+    const filteredHeroes = useMemo(() => getHeroeByName(q as string), [q]);
 
     const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            history.push(`?q=${formState.searchText}`)
-            const {searchText} = formState;
-            // const filteredHeroes = heroes.filter( chero => chero.superhero.toUpperCase().startsWith(searchText.toUpperCase()) );
-            // setSearchState({filteredHeroes});
+        e.preventDefault();
+        history.push(`?q=${searchText}`);
     };
 
     return (
@@ -55,7 +44,7 @@ export const SearchScreen: FC<SearchScreenProps> = ({history}: SearchScreenProps
             </div>
 
             <div className="row">
-                <div className="col-5">
+                <div className="col-md-5 col-sm-12">
                     <h4>Search Form</h4>
                     <hr />
 
@@ -74,10 +63,20 @@ export const SearchScreen: FC<SearchScreenProps> = ({history}: SearchScreenProps
                         </button>
                     </form>
                 </div>
-                <div className="col-7">
+                <div className="col-md-7 col-sm-12">
                     <h4>Results...</h4>
                     <hr />
-                    {searchState.filteredHeroes.map((hero: IHero) => (
+                    {
+                        (q === '') 
+                            && <div className="alert alert-info">Search a Hero</div>
+                    }
+
+                    {   (q !== '' && !filteredHeroes.length) 
+                             && 
+                             <div className="alert alert-warning">Heroes not found</div>
+                    }
+
+                    {filteredHeroes.map((hero: IHero) => (
                         <HeroCard key={hero.id} hero={hero} />
                     ))}
                 </div>
