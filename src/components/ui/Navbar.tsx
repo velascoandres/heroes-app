@@ -1,11 +1,25 @@
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
+import { AuthActionTypes, LogoutAction } from '../../auth/authReducer';
 
 export const Navbar: React.FC = () => {
+
+    const history = useHistory();
+
     const {
         authState: { username },
+        dispatch,
     } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        const logoutAction: LogoutAction = {
+            type: AuthActionTypes.LOGOUT,
+        };
+
+        dispatch(logoutAction);
+        history?.replace('/login');
+    };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,9 +46,9 @@ export const Navbar: React.FC = () => {
                     <div className="d-flex">
                         <span className="nav-item nav-link text-info">{username}</span>
 
-                        <NavLink activeClassName="active me-2" className="nav-item nav-link" exact to="/login">
+                        <button className="btn me-2 nav-item nav-link" onClick={handleLogout}>
                             Logout
-                        </NavLink>
+                        </button>
                     </div>
                 </div>
             </div>
