@@ -1,5 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { History, LocationState } from 'history';
+import { AuthActionTypes, LoginAction } from '../../auth/authReducer';
+import { AuthContext } from '../../auth/AuthContext';
 
 interface LoginScreenProps {
     history: History<LocationState>;
@@ -7,9 +9,21 @@ interface LoginScreenProps {
 
 
 export const LoginScreen: FC<LoginScreenProps> = ({ history }: LoginScreenProps) => {
+    
+    const {dispatch} = useContext(AuthContext)
+
+
     const handleClick = () => {
         // Navigate to dashboard
         // history.push('/');
+        const loginAction: LoginAction = {
+            payload: {
+                name: 'Andres'
+            },
+            type: AuthActionTypes.LOGIN
+        };
+        
+        dispatch(loginAction);
         history.replace('/');
     };
 

@@ -1,16 +1,21 @@
-import React, { FC } from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../auth/AuthContext';
 
-export const Navbar: FC = () => {
+export const Navbar: React.FC = () => {
+    const {
+        authState: { username },
+    } = useContext(AuthContext);
+
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-            <div className="container">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container-fluid">
                 <Link className="navbar-brand" to="/">
                     Asociaciones
                 </Link>
 
-                <div className="navbar-collapse">
-                    <div className="navbar-nav">
+                <div className="collapse navbar-collapse">
+                    <div className="navbar-nav me-auto mb-2 mb-lg-0">
                         <NavLink activeClassName="active" className="nav-item nav-link" exact to="/marvel">
                             Marvel
                         </NavLink>
@@ -18,20 +23,19 @@ export const Navbar: FC = () => {
                         <NavLink activeClassName="active" className="nav-item nav-link" exact to="/dc">
                             DC
                         </NavLink>
-                    </div>
-                </div>
 
-                <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul className="navbar-nav ml-auto">
                         <NavLink activeClassName="active" className="nav-item nav-link" exact to="/search">
                             Search
                         </NavLink>
-                    </ul>
-                    <ul className="navbar-nav ml-auto">
-                        <NavLink activeClassName="active" className="nav-item nav-link" exact to="/login">
+                    </div>
+
+                    <div className="d-flex">
+                        <span className="nav-item nav-link text-info">{username}</span>
+
+                        <NavLink activeClassName="active me-2" className="nav-item nav-link" exact to="/login">
                             Logout
                         </NavLink>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </nav>

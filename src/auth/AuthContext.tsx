@@ -1,4 +1,14 @@
 import { createContext } from 'react';
-import { AuthState, initialAuthState } from './authReducer';
+import { AuthAction, AuthState, initialAuthState } from './authReducer';
 
-export const AuthContext = createContext<AuthState>(initialAuthState);
+export interface IAuthContext {
+    authState: AuthState;
+    dispatch: (action: AuthAction) => void;
+}
+
+const initialContext: IAuthContext = {
+    authState: initialAuthState,
+    dispatch: (action: AuthAction) => {/* */},
+};
+
+export const AuthContext = createContext<IAuthContext>(initialContext);

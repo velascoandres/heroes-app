@@ -1,4 +1,4 @@
-enum AuthActionTypes {
+export enum AuthActionTypes {
     LOGIN = '[auth] login',
     LOGOUT = '[auth] logout',
 }
@@ -10,8 +10,19 @@ export interface AuthState {
 
 export interface AuthAction {
     type: AuthActionTypes;
-    payload: string;
 }
+
+export interface LoginAction extends AuthAction {
+    type: AuthActionTypes.LOGIN;
+    payload: {
+        name: string;
+    };
+}
+
+export interface LogoutAction extends AuthAction {
+    type: AuthActionTypes.LOGOUT;
+}
+
 
 export const initialAuthState: AuthState = {
     logged: false,
@@ -19,13 +30,13 @@ export const initialAuthState: AuthState = {
 };
 
 export const authReducer = (state: AuthState = initialAuthState, action: AuthAction): AuthState => {
-    const { type, payload } = action;
-
+    const { type } = action;
     switch (type) {
         case AuthActionTypes.LOGIN:
+            const {payload} = action as LoginAction;
             return {
                 ...state,
-                username: payload,
+                username: payload.name,
                 logged: true,
             };
         case AuthActionTypes.LOGOUT:
