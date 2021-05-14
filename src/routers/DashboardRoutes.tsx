@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Fragment } from 'react';
 import { Navbar } from '../components/ui/Navbar';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { HeroScreen } from '../components/heroes/HeroScreen';
 import { DcSreen } from '../components/dc/DcSreen';
 import { SearchScreen } from '../components/search/SearchScreen';
 
-export const DashboardRoutes: FC = () => {
+export const DashboardRoutes: React.FC = () => {
     return (
         <Fragment>
             <Navbar />
