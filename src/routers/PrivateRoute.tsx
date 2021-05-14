@@ -12,7 +12,18 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
     component: Component,
     path,
     exact,
+    ...rest
 }: PrivateRouteProps) => {
+
+    console.log( rest?.location);
+
+    const pathname = rest?.location?.pathname || '/';
+    const search = rest?.location?.search || '';
+
+    const lastPath = `${pathname}${search}`;
+
+    localStorage.setItem('lastPath', lastPath);
+
     return (
         <Route
             exact={exact}

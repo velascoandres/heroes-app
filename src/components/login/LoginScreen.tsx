@@ -16,6 +16,9 @@ export const LoginScreen: React.FC = () => {
     const handleClick = () => {
         // Navigate to dashboard
         // history.push('/');
+
+        const lastPath = localStorage.getItem('lastPath') || '/';
+
         const loginAction: LoginAction = {
             payload: {
                 name: 'Andres'
@@ -24,7 +27,7 @@ export const LoginScreen: React.FC = () => {
         };
         
         dispatch(loginAction);
-        history.replace('/');
+        history.replace(lastPath);
     };
 
     return (
