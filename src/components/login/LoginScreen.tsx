@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import { History, LocationState } from 'history';
 import { AuthActionTypes, LoginAction } from '../../auth/authReducer';
 import { AuthContext } from '../../auth/AuthContext';
-
-interface LoginScreenProps {
-    history: History<LocationState>;
-}
+import { useHistory } from 'react-router-dom';
 
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ history }: LoginScreenProps) => {
+
+export const LoginScreen: React.FC = () => {
     
     const {dispatch} = useContext(AuthContext)
+
+    const history = useHistory();
+
 
 
     const handleClick = () => {

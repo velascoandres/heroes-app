@@ -1,24 +1,24 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
-export interface PrivateRouteProps extends RouteProps{
+export interface PublicRouteProps extends RouteProps{
     isAuthenticated: boolean;
     component: React.FC<Record<string, unknown>>;
     path: string;
 }
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({
+export const PublicRoute: React.FC<PublicRouteProps> = ({
     isAuthenticated,
     component: Component,
     path,
     exact,
-}: PrivateRouteProps) => {
+}: PublicRouteProps) => {
     return (
         <Route
-            exact={exact}
             path={path}
+            exact={exact}
             component={(props: Record<string, unknown>) =>
-                isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />
+                (!isAuthenticated) ? <Component {...props} /> : <Redirect to="/" />
             }
         />
     );
