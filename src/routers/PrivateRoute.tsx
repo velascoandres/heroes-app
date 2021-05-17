@@ -15,8 +15,6 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
     ...rest
 }: PrivateRouteProps) => {
 
-    console.log( rest?.location);
-
     const pathname = rest?.location?.pathname || '/';
     const search = rest?.location?.search || '';
 
