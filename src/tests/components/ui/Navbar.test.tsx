@@ -2,10 +2,10 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Router } from 'react-router-dom';
-import { AuthContext, IAuthContext } from '../../auth/AuthContext';
-import { AuthActionTypes } from '../../auth/authReducer';
-import { Navbar } from '../../components/ui/Navbar';
-import { getMockRouterProps } from '../test-utils/getMockRouter';
+import { AuthContext, IAuthContext } from '../../../auth/AuthContext';
+import { AuthActionTypes } from '../../../auth/authReducer';
+import { Navbar } from '../../../components/ui/Navbar';
+import { getMockRouterProps } from '../../test-utils/getMockRouter';
 
 
 describe('Pruebas en <Navbar />', () => {
