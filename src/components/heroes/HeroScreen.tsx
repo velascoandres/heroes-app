@@ -1,8 +1,9 @@
 import React, { FC, useMemo } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { History, LocationState } from 'history';
-
 import { getHeroeById } from '../../selectors/getHeroById';
+import { getHeroPathById } from '../../helpers/getHeroPathById';
+
 
 export interface HeroParams {
     heroId: string;
@@ -38,7 +39,10 @@ export const HeroScreen: FC<HeroScreenProps> = ({ history }: HeroScreenProps) =>
         <div className="row mt-5">
             <div className="col-md-4 col-sm-12">
                 <img
-                    src={`/assets/heroes/${id}.jpg`} 
+                   
+                    // src={`/assets/heroes/${id}.jpg`} // desde public/assets
+                    // src={batman} //
+                    src={getHeroPathById(id)} 
                     className="card-img-top animate__animated animate__bounceIn" 
                     alt={superhero} 
                 />

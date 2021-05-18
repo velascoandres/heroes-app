@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { IHero } from './interfaces';
 
+
+import { getHeroPathById } from '../../helpers/getHeroPathById';
+
 export interface HeroCardProps {
     hero: IHero;
 }
@@ -13,7 +16,11 @@ export const HeroCard: FC<HeroCardProps> = ({ hero }: HeroCardProps) => {
         <div className="card mb-3" style={{ maxWidth: 540 }}>
             <div className="row g-0">
                 <div className="col-md-7 col-sm-12">
-                    <img src={`./assets/heroes/${id}.jpg`} className="card-img-top" alt={superhero} />
+                    <img 
+                        src={getHeroPathById(id)}
+                        className="card-img-top" 
+                        alt={superhero} 
+                    />
                 </div>
 
                 <div className="col-md-5 col-sm-12">
