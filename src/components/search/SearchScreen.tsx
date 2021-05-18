@@ -1,13 +1,11 @@
-import React, { FC, useMemo } from 'react';
-
-import { History, LocationState } from 'history';
+import React, { useMemo } from 'react';
 
 import { parse } from 'querystring';
 
 import { useForm } from '../../hooks/useForm';
 import { HeroCard } from '../heroes/HeroCard';
 import { IHero } from '../heroes/interfaces';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getHeroeByName } from '../../selectors/getHeresByName';
 
 export interface SearchFormState {
@@ -18,13 +16,12 @@ export interface SearchState {
     filteredHeroes: IHero[];
 }
 
-interface SearchScreenProps {
-    history: History<LocationState>;
-}
+export const SearchScreen: React.FC = () => {
+    const history = useHistory();
 
-export const SearchScreen: FC<SearchScreenProps> = ({ history }: SearchScreenProps) => {
     const location = useLocation();
-    const { q } = parse(location.search, '?'); // I put this because parse() returns => '{?q='batman'}'
+    const querystring = parse(location.search, '?');
+    const { q } = Object.keys(querystring).length ? querystring : { q: '' }; // I put this because parse() returns => '{?q:'batman'}'
 
     const [formState, onChange] = useForm<SearchFormState>({ searchText: q as string });
 
@@ -53,6 +50,7 @@ export const SearchScreen: FC<SearchScreenProps> = ({ history }: SearchScreenPro
                             type="text"
                             id="searchText"
                             name="searchText"
+                            value={searchText}
                             onChange={onChange}
                             placeholder="Find your hero"
                             className="form-control"
@@ -66,15 +64,11 @@ export const SearchScreen: FC<SearchScreenProps> = ({ history }: SearchScreenPro
                 <div className="col-md-7 col-sm-12">
                     <h4>Results...</h4>
                     <hr />
-                    {
-                        (q === '') 
-                            && <div className="alert alert-info">Search a Hero</div>
-                    }
+                    {q === '' && <div className="alert alert-info">Search a Hero</div>}
 
-                    {   (q !== '' && !filteredHeroes.length) 
-                             && 
-                             <div className="alert alert-warning">Heroes not found</div>
-                    }
+                    {q !== '' && !filteredHeroes.length && (
+                        <div className="alert alert-warning">No results for {searchText}</div>
+                    )}
 
                     {filteredHeroes.map((hero: IHero) => (
                         <HeroCard key={hero.id} hero={hero} />
